@@ -1,0 +1,23 @@
+spring:
+  profiles:
+    active: dev
+  ## Develop
+  devtools:
+    restart:
+      additional-paths: resources/**,static/**,templates/**
+  ## Spring Data JPA
+  datasource:
+    url: jdbc:mysql://192.168.1.101:3306/vote?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false
+    username: LifeOverflow
+    password: sfy1314
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  ## Hibernate Properties
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+
+  thymeleaf:
+    cache: false
+

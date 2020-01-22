@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/_fragments :: header">
+    <meta charset="UTF-8">
+    <title>Xmchx Admin | 后台管理登陆</title>
+</head>
+<body>
+
+<div class="login-box">
+    <div class="login-logo" style="color: #007bff;">
+        <h1>Dream Admin</h1>
+    </div>
+    <!-- /.login-logo -->
+    <div class="card">
+        <div class="card-body login-card-body">
+            <p class="login-box-msg">Hello Xmchx! enjoy it!</p>
+            <form th:action="@{/admin/login}" method="post">
+                <div th:if="${not #strings.isEmpty(session.errorMsg)}"
+                     class="form-group">
+                    <div class="alert alert-danger" th:text="${session.errorMsg}"></div>
+                </div>
+                <div class="form-group has-feedback">
+                    <span class="fa fa-user form-control-feedback"></span>
+                    <input type="text" id="usernameOrEmail" name="usernameOrEmail"
+                           class="form-control" placeholder="请输入账号"
+                           required="true">
+                </div>
+                <div class="form-group has-feedback">
+                    <span class="fa fa-lock form-control-feedback"></span>
+                    <input type="password" id="password" name="password" class="form-control" placeholder="请输入密码"
+                           required="true">
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <input type="text" class="form-control" name="verifyCode" placeholder="请输入验证码" required="true">
+                    </div>
+                    <div class="col-6">
+                        <img alt="单击图片刷新！" class="pointer" th:src="@{/common/kaptcha}"
+                             onclick="this.src='/common/kaptcha?d='+new Date()*1">
+                    </div>
+                </div>
+                <div class="form-group has-feedback"></div>
+                <div class="row">
+                    <div class="col-8">
+                    </div>
+                    <div class="col-4">
+                        <button type="submit" class="btn btn-primary btn-block btn-flat">登录
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+        <!-- /.login-card-body -->
+    </div>
+</div>
+<div th:replace="admin/_fragments :: js"></div>
+<script>
+    $(function () {
+        $(".pointer").click();
+    });
+
+</script>
+</body>
+</html>

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:fragment="head(title)">
+    <meta charset="UTF-8">
+    <title th:replace="${title}">Title</title>
+    <!--Bootstrap-->
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+    <link rel="stylesheet" th:href="@{/dist/css/main.css}">
+</head>
+<body>
+<nav th:fragment="menu(n)" class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand ml-5" href="/">Vote App</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+            aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+
+    <div class="collapse navbar-collapse  justify-content-end " id="navbarSupportedContent">
+        <ul class="navbar-nav my-2 my-lg-0" style="margin-right:130px;">
+            <li class="nav-item ml-2" th:classappend="${n==1} ? 'active'">
+                <a class="nav-link" href="/"><i class="fas fa-home"></i></span></a>
+            </li>
+            <!-- 登录判断 -->
+            <div sec:authorize="isAuthenticated()" th:remove="tag">
+                <li class="nav-item ml-2" th:classappend="${n==2} ? 'active'">
+                    <a class="nav-link" href="/newpoll"><i class="fas fa-poll"></i></a>
+                </li>
+                <li class="nav-item ml-2 dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-user"></i>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <div class="dropdown-item-text">
+                            <span style="display: block" sec:authentication="principal.name"></span>
+                            <a href="#">
+                                @<span style="display:inline"
+                                      sec:authentication="principal.username"></span>
+                            </a>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Profile</a>
+
+                        <a class="dropdown-item" href="/logout">Logout</a>
+                    </div>
+                </li>
+            </div>
+            <div sec:authorize="isAnonymous()" th:remove="tag">
+                <li class="nav-item ml-2">
+                    <a href="/login" class="btn btn-outline-success my-2 my-sm-0" type="submit">登录
+                    </a>
+                </li>
+            </div>
+        </ul>
+    </div>
+
+
+</nav>
+
+<div class="container mt-5">
+    <!-- Vote Title and describe-->
+    <h1 class="text-primary">发起投票</h1>
+    <div class="alert alert-warning alert-dismissible fade show"
+         role="alert">
+        <strong>Holy guacamole!</strong> You should check in on some
+        of those fields below.
+        <button type="button" class="close" data-dismiss="alert"
+                aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="input-group mb-2 mr-sm-2">
+        <div class="input-group-prepend">
+            <div class="input-group-text">
+                <i class="fa fa-quote-left"></i>
+            </div>
+        </div>
+        <input type="text" class="form-control py-0"
+               id="voteTitle"
+               placeholder="Vote title">
+    </div>
+
+    <div class="input-group mb-2 mr-sm-2">
+        <textarea class="form-control" id="voteDescribe"
+                  name="textarea" placeholder="Vote describe"
+                  rows="3"></textarea>
+        <div class="input-group-prepend">
+            <div class="input-group-text">
+                <i class="fa fa-quote-right"></i>
+            </div>
+        </div>
+    </div>
+    <!-- Vote Mode-->
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <label class="input-group-text"
+                   for="voteMode">Mode</label>
+        </div>
+        <select class="browser-default custom-select" id="voteMode">
+            <option selected>Choose...</option>
+            <option value="1">Single election</option>
+            <option value="2">Multiply election</option>
+        </select>
+    </div>
+    <!-- Option Num-->
+    <div class="md-form" id="optionNum">
+        <input type="text" id="modeInput" class="form-control">
+        <label for="modeInput">Maximum Selection of Items</label>
+    </div>
+    <!-- Deadline -->
+    <div class="input-group mb-3">
+        <input type="text" id="deadline"
+               placeholder="Please select deadline">
+    </div>
+
+
+    <!--Options-->
+    <div class="option1">
+        <div class="input-group mb-2 mr-sm-2">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Option 1</span>
+            </div>
+            <input type="text" class="form-control py-0" id="option1">
+        </div>
+    </div>
+    <div class="option2">
+        <div class="input-group mb-2 mr-sm-2">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Option 2</span>
+            </div>
+            <input type="text" class="form-control py-0" id="option2">
+        </div>
+    </div>
+    <div class="option3 ">
+        <div class="input-group mb-3 mr-sm-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Option 3</span>
+            </div>
+            <input type="text" class="form-control py-0 "
+                   id="option3">
+            <div class="cls"></div>
+            <div class="input-group-append" id="close3">
+                <span class="input-group-text" onclick="delOption()">
+                    <i class="fas fa-times"></i>
+                </span>
+            </div>
+        </div>
+    </div>
+    <!-- More selection-->
+    <div class="add">
+
+    </div>
+    <!-- Add button -->
+    <span class="input-group-text float-right" onclick="addOption()">
+        <i class="fas fa-plus"></i>
+    </span>
+    <button id="submit" type="button"
+            class="btn btn-light-blue">SUBMIT
+    </button>
+
+
+</div>
+
+
+<!-- Javascript -->
+<div th:fragment="js">
+    <!-- Bootstrap 4-->
+    <script
+            src="https://code.jquery.com/jquery-3.4.1.js"
+            integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            crossorigin="anonymous"></script>
+</div>
+</body>
+</html>

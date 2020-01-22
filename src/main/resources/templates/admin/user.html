@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<header th:replace="admin/_fragments :: header"></header>
+<link rel="stylesheet" th:href="@{/admin/plugins/image-picker/image-picker.css}">
+<body class="hold-transition sidebar-mini">
+<style>
+    .ui-jqgrid tr.jqgrow td {
+        white-space: normal !important;
+        height: auto;
+        vertical-align: text-top;
+        padding-top: 2px;
+    }
+</style>
+<div class="wrapper">
+    <!-- 引入页面头header-fragment -->
+    <div th:replace="admin/_fragments::header-nav"></div>
+    <!-- 引入工具栏sidebar-fragment -->
+    <div th:replace="admin/_fragments :: sidebar-fragment(${path})"></div>
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- Main content -->
+        <div class="content">
+            <div class="container-fluid">
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title">用户管理</h3>
+                    </div> <!-- /.card-body -->
+                    <div class="card-body">
+                        <div class="grid-btn">
+                            <div class="row">
+                                <div class="col-8 float-left">
+                                    <button class="btn btn-info" onclick="addUser()"><i
+                                            class="fa fa-plus"></i>&nbsp;新增
+                                    </button>
+                                    <button class="btn btn-info" onclick="editUser()"><i
+                                            class="fa fa-edit"></i>&nbsp;修改
+                                    </button>
+                                    <button class="btn btn-danger" onclick="deleteUser()"><i
+                                            class="fa fa-trash-o"></i>&nbsp;删除
+                                    </button>
+                                </div>
+                                <div class="col-4 float-right">
+                                    <input type="text" placeholder="关键字(用户名/名称/邮箱/)" id="keyword"
+                                           class="form-control ">&nbsp;
+                                    <br>
+                                    <button class="btn btn-info" onclick="search()"><i
+                                            class="fa fa-search"></i>&nbsp;搜索
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <br/>
+                        <!-- JqGrid必要DOM,用于创建表格展示列表数据 -->
+                        <table id="jqGrid" class="table table-bordered"></table>
+                        <!-- JqGrid必要DOM,分页信息区域 -->
+                        <div id="jqGridPager"></div>
+                    </div><!-- /.card-body -->
+                </div>
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content -->
+        <div class="content">
+            <!-- 模态框（Modal） -->
+            <div class="modal fade" id="userModal" tabindex="-1" role="dialog"
+                 aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h6 class="modal-title" id="exampleModalLabel">Modal</h6>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="userForm">
+                                <div class="form-group">
+                                    <div class="alert alert-danger" id="edit-error-msg" style="display: none;">
+                                        错误信息展示栏。
+                                    </div>
+                                </div>
+                                <input type="hidden" class="form-control" id="userId"
+                                       name="userId">
+                                <div class="form-group">
+                                    <label for="username" class="control-label">用户账号:</label>
+                                    <input type="text" class="form-control" id="username"
+                                           name="username"
+                                           placeholder="请输入用户账号名" required="true">
+                                </div>
+                                <div class="form-group">
+                                    <label for="name" class="control-label">用户名称:</label>
+                                    <input type="text" class="form-control" id="name"
+                                           name="name"
+                                           placeholder="请输入用户名称" required="true">
+                                </div>
+                                <div class="form-group">
+                                    <label for="password" class="control-label">用户密码:</label>
+                                    <input type="password" class="form-control" id="password"
+                                           name="password"
+                                           placeholder="请输入密码" required="true">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="email" class="control-label">用户邮箱:</label>
+                                    <input type="email" class="form-control" id="email"
+                                           name="email"
+                                           placeholder="请输入用户邮箱" required="true">
+                                </div>
+                                <div class="form-group">
+                                    <label  class="control-label">用户权限:</label>
+                                    <div th:remove="tag" th:each="role : ${roles}">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input roles-checkbox"
+                                                   type="checkbox"
+                                                   th:id="|role${role.id}|"
+                                                   th:value="${role.id}">
+                                            <label class="form-check-label"
+                                                   th:for="|role${role.id}|" th:text="${role.name}">
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label for="status" class="control-label">用户状态:</label>
+                                    <select class="form-control select2" name="status" id="status">
+                                        <option value="active">活动</option>
+                                        <option value="locked">封杀</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="avatar" class="control-label">用户头像:</label>
+                                    <select class='form-control select2 image-picker' id="avatar"
+                                            name="avatar">
+                                        <option data-img-src='/admin/dist/img/avatar/girl0.png'
+                                                value='/admin/dist/img/avatar/girl0.png' > 默认图标
+                                        </option>
+                                        <option data-img-src='/admin/dist/img/avatar/girl1.png' value='/admin/dist/img/avatar/girl1.png'> 图标1</option>
+                                        <option data-img-src='/admin/dist/img/avatar/girl2.png' value='/admin/dist/img/avatar/girl2.png'> 图标2</option>
+                                        <option data-img-src='/admin/dist/img/avatar/girl3.png' value='/admin/dist/img/avatar/girl3.png'> 图标3</option>
+                                        <option data-img-src='/admin/dist/img/avatar/girl4.png' value='/admin/dist/img/avatar/girl4.png'> 图标4</option>
+                                        <option data-img-src='/admin/dist/img/avatar/girl5.png' value='/admin/dist/img/avatar/girl5.png'> 图标5</option>
+                                        <option data-img-src='/admin/dist/img/avatar/girl6.png' value='/admin/dist/img/avatar/girl6.png'> 图标6</option>
+                                        <option data-img-src='/admin/dist/img/avatar/girl7.png' value='/admin/dist/img/avatar/girl7.png'> 图标7</option>
+                                        <option data-img-src='/admin/dist/img/avatar/girl8.png' value='/admin/dist/img/avatar/girl8.png'> 图标8</option>
+                                        <option data-img-src='/admin/dist/img/avatar/girl9.png' value='/admin/dist/img/avatar/girl9.png'> 图标9</option>
+                                        <option data-img-src='/admin/dist/img/avatar/girl10.png' value='/admin/dist/img/avatar/girl10.png'> 图标10</option>
+                                        <option data-img-src='/admin/dist/img/avatar/girl11.png' value='/admin/dist/img/avatar/girl11.png'> 图标11</option>
+                                        <option data-img-src='/admin/dist/img/avatar/girl12.png' value='/admin/dist/img/avatar/girl12.png'> 图标12</option>
+                                        <option data-img-src='/admin/dist/img/avatar/girl13.png' value='/admin/dist/img/avatar/girl13.png'> 图标13</option>
+                                        <option data-img-src='/admin/dist/img/avatar/girl14.png' value='/admin/dist/img/avatar/girl14.png'> 图标14</option>
+                                        <option data-img-src='/admin/dist/img/avatar/girl15.png' value='/admin/dist/img/avatar/girl15.png'> 图标15</option>
+                                        <option data-img-src='/admin/dist/img/avatar/girl16.png' value='/admin/dist/img/avatar/girl16.png'> 图标16</option>
+                                        <option data-img-src='/admin/dist/img/avatar/girl17.png' value='/admin/dist/img/avatar/girl17.png'> 图标17</option>
+                                        <option data-img-src='/admin/dist/img/avatar/girl18.png' value='/admin/dist/img/avatar/girl18.png'> 图标18</option>
+                                        <option data-img-src='/admin/dist/img/avatar/girl19.png' value='/admin/dist/img/avatar/girl19.png'> 图标19</option>
+                                    </select>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                            <button type="button" class="btn btn-primary" id="saveButton">确认</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.modal -->
+        </div>
+    </div>
+    <!-- /.content-wrapper -->
+    <!-- 引入页脚footer-fragment -->
+    <div th:replace="admin/_fragments :: footer-fragment"></div>
+
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+    </aside>
+    <!-- /.control-sidebar -->
+</div>
+
+<div th:replace="admin/_fragments :: js"></div>
+
+<!-- jqgrid -->
+<script th:src="@{/admin/plugins/jqgrid-5.3.0/jquery.jqGrid.min.js}"></script>
+<script th:src="@{/admin/plugins/jqgrid-5.3.0/grid.locale-cn.js}"></script>
+<!-- image-picker -->
+<script th:src="@{/admin/plugins/image-picker/jquery.masonry.min.js}"></script>
+<script th:src="@{/admin/plugins/image-picker/image-picker.min.js}"></script>
+
+<!-- sweetalert -->
+<script th:src="@{/admin/plugins/sweetalert/sweetalert.min.js}"></script>
+
+<script th:src="@{/admin/dist/js/public.js}"></script>
+<script th:src="@{/admin/dist/js/users.js}"></script>
+
+</body>
+</html>

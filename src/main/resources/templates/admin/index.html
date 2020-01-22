@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/_fragments :: header">
+
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+    <!-- 引入页面头header-fragment -->
+    <div th:replace="admin/_fragments::header-nav"></div>
+    <!-- 引入工具栏sidebar-fragment -->
+    <div th:replace="admin/_fragments :: sidebar-fragment(${path})"></div>
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0 text-dark">主页</h1>
+                    </div><!-- /.col -->
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="#">主页</a></li>
+                            <li class="breadcrumb-item active">Dashboard</li>
+                        </ol>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+
+        <!-- Main content -->
+        <div class="content">
+            <div class="container-fluid">
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title">基本信息</h3>
+                    </div> <!-- /.card-body -->
+                    <div class="card-body">
+                        <div class="panel panel-default">
+                            <div style="padding: 10px 0 20px 10px;">
+                                <h3>&nbsp;&nbsp;&nbsp;欢迎来到后台管理模块</h3>
+                                <br>
+                                <div class="row">
+                                    <div class="col-lg-4 col-6">
+                                        <!-- small box -->
+                                        <div class="small-box bg-info">
+                                            <div class="inner">
+                                                <h3>发布投票</h3>
+
+                                                <p>共同交流</p>
+                                            </div>
+                                            <div class="icon">
+                                                <i class="fas fa-poll-h"></i>
+                                            </div>
+                                            <a th:href="@{/admin/polls/add}"
+                                               class="small-box-footer">let's go <i
+                                                    class="fa fa-arrow-circle-right"></i></a>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-6">
+                                        <!-- small box -->
+                                        <div class="small-box bg-success">
+                                            <div class="inner">
+                                                <h3 th:text="${pollCount}">65</h3>
+
+                                                <p>投票文章数</p>
+                                            </div>
+                                            <div class="icon">
+                                                <i class="fa fa-list-alt"></i>
+                                            </div>
+                                            <a th:href="@{/admin/polls}"
+                                               class="small-box-footer">More info <i
+                                                    class="fa fa-arrow-circle-right"></i></a>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-6">
+                                        <!-- small box -->
+                                        <div class="small-box bg-primary">
+                                            <div class="inner">
+                                                <h3 th:text="${commentCount}">65</h3>
+
+                                                <p>收到评论数</p>
+                                            </div>
+                                            <div class="icon">
+                                                <i class="fa fa-comments"></i>
+                                            </div>
+                                            <a th:href="@{/admin/comments}" class="small-box-footer">More info <i
+                                                    class="fa fa-arrow-circle-right"></i></a>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-6">
+                                        <!-- small box -->
+                                        <div class="small-box bg-warning">
+                                            <div class="inner">
+                                                <h3 th:text="${categoryCount}">65</h3>
+
+                                                <p>分类数量</p>
+                                            </div>
+                                            <div class="icon">
+                                                <i class="fa fa-bookmark"></i>
+                                            </div>
+                                            <a th:href="@{/admin/categories}" class="small-box-footer">More info <i
+                                                    class="fa fa-arrow-circle-right"></i></a>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-6">
+                                        <!-- small box -->
+                                        <div class="small-box bg-danger">
+                                            <div class="inner">
+                                                <h3 th:text="${tagCount}">65</h3>
+
+                                                <p>标签总量</p>
+                                            </div>
+                                            <div class="icon">
+                                                <i class="fa fa-tags"></i>
+                                            </div>
+                                            <a th:href="@{/admin/tags}" class="small-box-footer">More info <i
+                                                    class="fa fa-arrow-circle-right"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div><!-- /.card-body -->
+                </div>
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content -->
+    </div>
+    <!-- 引入页脚footer-fragment -->
+    <div th:replace="admin/_fragments :: footer-fragment"></div>
+
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+    </aside>
+    <!-- /.control-sidebar -->
+</div>
+<!-- ./wrapper -->
+<div th:replace="admin/_fragments :: js"></div>
+
+</body>
+</html>

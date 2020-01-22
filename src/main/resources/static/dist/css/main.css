@@ -1,0 +1,101 @@
+/* Vote */
+
+
+/* VoteInfo */
+.title {
+    text-align: center;
+}
+
+.text {
+    text-align: center;
+}
+
+/*--------Card------------*/
+.my-card {
+    float: none;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.my-card-avatar {
+    border-radius: 50%;
+    width: 32px !important;
+    height: 32px !important;
+}
+
+.my-card-time {
+    font-size: 15px;
+    color: #9d9d9d;
+}
+
+.my-card-button {
+    border-radius: 1.1rem !important;
+}
+
+/*-----Check Radio  Style----------*/
+
+.Form {
+    --with: 1.8rem;
+
+    margin: auto;
+    padding: 1em;
+
+    width: 40rem;
+}
+
+.Form-label {
+    display: flex;
+    align-items: center;
+
+    color: #00b8d4;
+    font-weight: 400;
+    transition: .3s;
+}
+
+.Form-label::before {
+    content: "";
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* 	display: inline-block; */
+    margin-right: .2em;
+    border: 2px solid;
+    width: var(--with);
+    height: var(--with);
+}
+
+.Form-label,
+.Form-input {
+    cursor: pointer;
+}
+
+.Form-input {
+    display: none;
+}
+
+.Form-label--checkbox::before {
+    border-radius: 4px;
+}
+
+.Form-input:checked + .Form-label--checkbox {
+    color: #e65100;
+    font-weight: 500;
+}
+
+.Form-input:checked + .Form-label--checkbox::before {
+    content: "🤗";
+}
+
+.Form-label--radio::before {
+    border-radius: 50%;
+}
+
+.Form-input:checked + .Form-label--radio {
+    color: #ad1457;
+    font-weight: 500;
+}
+
+.Form-input:checked + .Form-label--radio::before {
+    content: "🤡";
+}

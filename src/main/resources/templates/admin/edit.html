@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<header th:replace="admin/_fragments :: header"></header>
+<body class="hold-transition sidebar-mini">
+<style>
+    .ui-jqgrid tr.jqgrow td {
+        white-space: normal !important;
+        height: auto;
+        vertical-align: text-top;
+        padding-top: 2px;
+    }
+</style>
+<!-- Tags Input-->
+<link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.3.1/flatly/bootstrap.min.css">
+<link th:href="@{/plugins/Bootstrap-4-Tag-Input-Plugin-jQuery/tagsinput.css}" rel="stylesheet"
+      type="text/css">
+<div class="wrapper">
+    <!-- 引入页面头header-fragment -->
+    <div th:replace="admin/_fragments::header-nav"></div>
+    <!-- 引入工具栏sidebar-fragment -->
+    <div th:replace="admin/_fragments :: sidebar-fragment(${path})"></div>
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- Main content -->
+        <div class="content">
+            <div class="container-fluid">
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title">编辑投票</h3>
+                    </div> <!-- /.card-body -->
+                    <div class="card-body">
+                        <input type="hidden" id="pollId" name="pollId" th:value="${poll.id}">
+                        <div class="alert alert-warning alert-dismissible fade show"
+                             role="alert">
+                            <strong>Holy guacamole!</strong> You should check in on some
+                            of those fields below.
+                            <button type="button" class="close" data-dismiss="alert"
+                                    aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="input-group mb-2 mr-sm-2">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <i class="fa fa-quote-left"></i>
+                                </div>
+                            </div>
+                            <input type="text" class="form-control py-0"
+                                   id="voteTitle" th:value="${poll.title}"
+                                   placeholder="Vote title">
+                        </div>
+
+                        <div class="input-group mb-2 mr-sm-2">
+                            <textarea class="form-control" id="voteDescribe"
+                                      name="textarea" placeholder="Vote describe"
+                                      th:text="${poll.summary}"
+                                      rows="3"></textarea>
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <i class="fa fa-quote-right"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Vote Mode-->
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text"
+                                       for="voteMode">Mode</label>
+                            </div>
+                            <select class="browser-default custom-select" id="voteMode">
+                                <option th:value="${poll.mode}"
+                                        th:text="${poll.mode  == 1} ?'Single election':'Multiply election'"
+                                        selected>
+                                </option>
+                                <option th:value="${poll.mode == 1} ? '2' : '1'"
+                                        th:text="${poll.mode  == 1} ?'Multiply election':'Single election'"
+                                >
+                                </option>
+                            </select>
+                        </div>
+                        <!-- Option Num-->
+                        <div class="md-form" id="optionNum">
+                            <input type="text" id="modeInput" class="form-control">
+                            <label for="modeInput">Maximum Selection of Items</label>
+                        </div>
+                        <!-- Vote Category-->
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text"
+                                       for="voteCategory">Category</label>
+                            </div>
+                            <select class="browser-default custom-select" id="voteCategory">
+                                <div th:remove="tag" th:each="c : ${categories}">
+                                    <option th:value="${c.id}" th:text="${c.name}"
+                                            th:selected="${poll.category.id == c.id}"></option>
+                                </div>
+                            </select>
+                        </div>
+
+                        <br>
+                        <!-- Vore Tags-->
+                        <input type="text" value="" placeholder="请输入标签"
+                               data-role="tagsinput" id="voteTags"/>
+                        <br/>
+
+                        <!-- Deadline -->
+                        <div class="input-group mb-3">
+                            <input type="text" id="deadline"
+                                   th:value="${#dates.format(poll.expirationDateTime,'yyyy-MM-dd HH:mm:ss')}"
+                                   placeholder="Please select deadline">
+                        </div>
+
+                        <!--Options-->
+                        <!-- More selection-->
+                        <div class="add">
+
+                        </div>
+                        <!-- Add button -->
+                        <span class="input-group-text float-right" onclick="addOption()">
+                            <i class="fas fa-plus"></i>
+                        </span>
+                        <button id="submit" type="button"
+                                class="btn btn-info mt-1" style="width:100%">Create Poll
+                        </button>
+                    </div><!-- /.card-body -->
+                </div>
+            </div><!-- /.container-fluid -->
+        </div>
+    </div>
+    <!-- /.content-wrapper -->
+    <!-- 引入页脚footer-fragment -->
+    <div th:replace="admin/_fragments :: footer-fragment"></div>
+
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+    </aside>
+    <!-- /.control-sidebar -->
+</div>
+
+<div th:replace="admin/_fragments :: js"></div>
+
+
+<!-- sweetalert -->
+<script th:src="@{/admin/plugins/sweetalert/sweetalert.min.js}"></script>
+
+<script th:src="@{/admin/dist/js/public.js}"></script>
+<script th:src="@{/admin/dist/js/edit.js}"></script>
+<script th:src="@{/plugins/Bootstrap-4-Tag-Input-Plugin-jQuery/tagsinput.js}"></script>
+<!-- LayDate -->
+<script th:src="@{/plugins/layDate-v5.0.9/laydate/laydate.js}"></script>
+<script th:inline="javascript">
+    var tags = [[${poll.tags}]];
+    var choices = [[${poll.choices}]];
+
+    console.log(tags);
+    console.log(tags.length);
+    /* Tags */
+    $("#voteTags").tagsinput('add', "");
+    for (let i = 0; i < tags.length; i++) {
+        console.log(tags[i].name);
+        $("#voteTags").tagsinput('add', tags[i].name);
+    }
+
+
+    var mode = [[${poll.mode}]];
+    var count = [[${poll.limitCount}]];
+    if (mode == 1) {
+        $("#optionNum").hide();
+    } else if (mode == 2) {
+        $("#optionNum").show();
+        $("#modeInput").val(count);
+    }
+
+
+    var options = 0;
+    /* Choices */
+    for (let i = 0; i < choices.length; i++) {
+        options++;
+        var append = "" +
+            "   <div class=\"option" + options + "\">\n" +
+            "       <div class=\"input-group mb-3 mr-sm-3\">\n" +
+            "           <div class=\"input-group-prepend\">\n" +
+            "               <span class=\"input-group-text\">Option " + options + "</span>\n" +
+            "           </div>\n" +
+            "           <input type=\"text\" class=\"form-control" +
+            " py-0 my-option\" onchange=\"checkOptionName(this);\" id=\"option" + options + "\">\n" +
+            "            <div class=\"cls\"></div>\n" +
+            "       </div>\n" +
+            "   </div>\n"
+        ;
+        if (i == choices.length - 1) {
+            append = "" +
+                "   <div class=\"option" + options + "\">\n" +
+                "       <div class=\"input-group mb-3 mr-sm-3\">\n" +
+                "           <div class=\"input-group-prepend\">\n" +
+                "               <span class=\"input-group-text\">Option " + options + "</span>\n" +
+                "           </div>\n" +
+                "           <input type=\"text\" class=\"form-control" +
+                " py-0 my-option\" onchange=\"checkOptionName(this);\" id=\"option" + options + "\">\n" +
+                "            <div class=\"cls\"></div>\n" +
+                "           <div class=\"input-group-append\" id=\"close" + options + "\">\n" +
+                "               <span class=\"input-group-text\"" +
+                " onclick=\"delOption()\">\n" +
+                "                   <i class=\"fas fa-times\"></i>\n" +
+                "               </span>\n" +
+                "           </div>\n" +
+                "       </div>\n" +
+                "   </div>\n"
+            ;
+        }
+
+        $(".add").append(append);
+        $("#option" + options).val(choices[i].text);
+    }
+
+
+    function addOption() {
+        $("#close" + options).remove();
+        ++options;
+        var append = "" +
+            "   <div class=\"option" + options + "\">\n" +
+            "       <div class=\"input-group mb-3 mr-sm-3\">\n" +
+            "           <div class=\"input-group-prepend\">\n" +
+            "               <span class=\"input-group-text\">Option " + options + "</span>\n" +
+            "           </div>\n" +
+            "           <input type=\"text\" class=\"form-control" +
+            " py-0 my-option\" onchange=\"checkOptionName(this);\" id=\"option" + options + "\">\n" +
+            "            <div class=\"cls\"></div>\n" +
+            "           <div class=\"input-group-append\" id=\"close" + options + "\">\n" +
+            "               <span class=\"input-group-text\"" +
+            " onclick=\"delOption()\">\n" +
+            "                   <i class=\"fas fa-times\"></i>\n" +
+            "               </span>\n" +
+            "           </div>\n" +
+            "       </div>\n" +
+            "   </div>\n"
+        ;
+        $(".add").append(append);
+    }
+
+    function delOption() {
+        $(".option" + options).remove();
+        --options;
+        console.log(options);
+        $(".option" + options + " .cls").after("" +
+            " <div class=\"input-group-append\" id=\"close" + options + "\">\n" +
+            "   <span class=\"input-group-text\"" +
+            " onclick=\"delOption()\">\n" +
+            "       <i class=\"fas fa-times\"></i>\n" +
+            "   </span>\n" +
+            " </div>\n"
+        );
+    }
+</script>
+</body>
+</html>
