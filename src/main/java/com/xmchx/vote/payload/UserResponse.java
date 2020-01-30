@@ -16,11 +16,20 @@ public class UserResponse {
     private String username;
     private String email;
     private String avatar;
+    private String motto;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
     private String status;
     private Set<Role> roles;
 
+
+    public String getMotto() {
+        return motto;
+    }
+
+    public void setMotto(String motto) {
+        this.motto = motto;
+    }
 
     public Long getId() {
         return id;

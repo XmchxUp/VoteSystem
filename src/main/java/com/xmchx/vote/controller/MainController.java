@@ -24,28 +24,11 @@ import java.util.List;
 public class MainController {
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private RoleRepository roleRepository;
-
-    @Autowired
     private CategoryRepository categoryRepository;
-
-    @Autowired
-    private TagRepository tagRepository;
 
     @Autowired
     private PollService pollService;
 
-    @Autowired
-    private PollRepository pollRepository;
-
-    @Autowired
-    private VoteRepository voteRepository;
-
-    @Autowired
-    private ChoiceRepository choiceRepository;
 
     @GetMapping("/")
     public String root() {
@@ -61,6 +44,8 @@ public class MainController {
         model.addAttribute("page", polls);
         return "index";
     }
+
+
 
     @GetMapping("/signup")
     public String signup() {
@@ -85,7 +70,6 @@ public class MainController {
         model.addAttribute("categories", categories);
         return "newpoll";
     }
-
 
 
 }

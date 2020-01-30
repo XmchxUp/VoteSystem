@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="_fragments::head(~{::title})">
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Vote | Xmchx</title>
+</head>
+<body>
+<div th:replace="_fragments :: menu(3)"></div>
+<div class="container mt-5 mb-lg-3">
+    <div class="row">
+        <div class="col">
+            <div class="text-center">
+                <img th:src="${userProfile.avatar}" width="200" class="rounded-circle float-right"
+                     th:alt="${userProfile.username}">
+            </div>
+        </div>
+        <div class="col-6">
+            <h1 th:text="${userProfile.name}"></h1><span class="badge badge-secondary">New</span>
+            <p>@<span th:text="${userProfile.username}"></span></p>
+            <p th:text="${userProfile.motto}"></p>
+            <p><span th:text="${#dates.format(userProfile.joinedAt,'dd-MM-yyyy HH:mm')}"></span></p>
+        </div>
+    </div>
+
+    <ul class="nav justify-content-center">
+        <li class="nav-item">
+            <a class="nav-link active" href="#">
+                <span th:text="${userProfile.pollCount}"></span> Polls</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">
+                <span th:text="${userProfile.voteCount}"></span> Votes</a></a>
+        </li>
+    </ul>
+</div>
+<div th:replace="_fragments :: js"></div>
+
+
+</body>
+</html>

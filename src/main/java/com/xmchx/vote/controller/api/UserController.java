@@ -32,6 +32,8 @@ public class UserController {
     @Autowired
     RoleRepository roleRepository;
 
+
+
     @Autowired
     UserService userService;
 
@@ -64,6 +66,7 @@ public class UserController {
                 "User not exist."));
         return new ResponseEntity(user, HttpStatus.OK);
     }
+
 
     @PostMapping("/delete")
     @PreAuthorize("hasRole('ADMIN')")

@@ -1,6 +1,7 @@
 $(function () {
     setInterval(setCountDown, 1000);
-    setInterval(setJoin,1000*60);
+    /*setInterval(setJoin,60000*60);*/
+    setJoin();
 });
 
 /*Vote按钮*/
@@ -47,9 +48,14 @@ function voteSubmit(element) {
         voteId: voteId,
         optionIds: optionIds
     }).done(function (data) {
-        alert(data.message);
+        if (data.message != null) {
+            alert(data.message);
+        } else {
+            alert("请登录!");
+        }
+
+        window.location.reload();
     }).fail(function (error) {
-        console.log(error);
         alert("请求失败！");
     });
 

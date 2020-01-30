@@ -48,6 +48,9 @@ public class User implements Serializable {
     @Email
     private String email;
 
+    @Size(max = 40)
+    private String motto;
+
     @NotBlank
     @Size(max = 100)
     private String password;
@@ -81,6 +84,14 @@ public class User implements Serializable {
         this.password = password;
     }
 
+
+    public String getMotto() {
+        return motto;
+    }
+
+    public void setMotto(String motto) {
+        this.motto = motto;
+    }
 
     public void setEncodePassword(String password) {
         PasswordEncoder encoder = new BCryptPasswordEncoder();

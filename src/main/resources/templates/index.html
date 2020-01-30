@@ -71,7 +71,7 @@
                         th:attr="voteId=${vote.id},limitCount=${vote.limitCount}"
                         onclick="voteSubmit(this)"
                         class="btn btn-outline-primary my-card-button">Vote
-                </button>&nbsp;<a th:id="|voteInfo${vote.id}|" th:href="|/voteinfo/${vote.id}|"
+                </button>&nbsp;<a th:id="|voteInfo${vote.id}|" th:href="|/vote/${vote.id}|"
                                   class="btn btn-outline-info my-card-button"
                                   style="display: none;">查看
             </a>&nbsp;&nbsp;&nbsp;<span
@@ -81,8 +81,8 @@
                     left</span></p>
             </div>
             <p>
-                <footer class="blockquote-footer">芝兰生于深谷，不以无人而不芳。
-                    <cite title="Source Title">君子修身养德，不以穷困而改志。</cite>
+                <footer class="blockquote-footer"
+                        th:text="${vote.user.motto} != null? ${vote.user.motto}:'该用户没有座右铭。'">
                 </footer>
         </div>
     </div>

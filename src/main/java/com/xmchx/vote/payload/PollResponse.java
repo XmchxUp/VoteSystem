@@ -1,7 +1,8 @@
 package com.xmchx.vote.payload;
 
 import com.xmchx.vote.model.Choice;
-import lombok.Getter;
+import com.xmchx.vote.model.User;
+import lombok.Data;
 
 import java.util.Date;
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
  * @author LifeOverflow  Ex-boyfriend
  * @date 2020/1/18 19:41
  */
-@Getter
+@Data
 public class PollResponse {
     private Long id;
     private String summary;
@@ -21,5 +22,6 @@ public class PollResponse {
     private Date createTime;
     private List<Choice> choices;
     private Integer count;
+    private User user;
 
 }

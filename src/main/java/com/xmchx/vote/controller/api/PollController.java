@@ -13,6 +13,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -43,6 +44,9 @@ public class PollController {
     @Autowired
     ChoiceRepository choiceRepository;
 
+    @Autowired
+    VoteRepository voteRepository;
+
     @GetMapping("/list")
     public PagedResponse<PollResponse> list(@RequestParam(value = "page", defaultValue =
             AppConstants.DEFAULT_PAGE_NUMBER) int page,
@@ -59,6 +63,27 @@ public class PollController {
             @RequestParam(name = "keyword", defaultValue = "") String keyword
     ) {
         return pollService.getAllPollsByKeyword(page, size, keyword);
+    }
+
+    @GetMapping("/{pollId}")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<PollInfoResponse> info(@PathVariable("pollId") Long pollId) {
+        Poll poll = pollRepository.findById(pollId).orElseThrow(() -> new AppException(
+                "poll not exist."));
+        PollInfoResponse pollInfoResponse = new PollInfoResponse();
+        pollInfoResponse.setTitle(poll.getTitle());
+        List<String> labels = new ArrayList<>();
+        List<Integer> values = new ArrayList<>();
+        List<Choice> choices = choiceRepository.findChoicesByPollIdIn(pollId);
+        for (Choice choice : choices) {
+            long count = voteRepository.countByChoiceId(choice.getId());
+            labels.add(choice.getText());
+            values.add((int) count);
+        }
+        pollInfoResponse.setValues(values);
+        pollInfoResponse.setLabels(labels);
+
+        return new ResponseEntity(pollInfoResponse, HttpStatus.OK);
     }
 
     @PostMapping("/save")
@@ -159,7 +184,6 @@ public class PollController {
         return new ResponseEntity(new ApiResponse(true, "Poll update successfully"),
                 HttpStatus.OK);
     }
-
 
 
 }

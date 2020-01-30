@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="_fragments::head(~{::title})">
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Vote | Xmchx</title>
+</head>
+<body>
+<div th:replace="_fragments :: menu(3)"></div>
+<div class="container mt-5">
+    <div class="row justify-content-md-center">
+        <div class="col col-lg-2">
+            <input type="hidden" id="pollId" name="pollId" th:value="${poll.id}">
+            <img class="my-card-avatar"
+                 th:src="${poll.user.avatar}"
+                 alt="avatar">
+            <p>
+                <span th:text="${poll.user.name}">Xmchx
+                </span>
+                <span th:text="|@${poll.user.username}|"
+                      class="my-card-time">@xmchx
+                </span>
+            </p>
+            <p th:text="${poll.user.motto}"></p>
+        </div>
+        <div class="col-md-auto">
+            <h5 th:text="${poll.title}" class="text-center"></h5>
+            <h6 th:text="|${poll.summary}|" class="text-center"></h6>
+            <p class="text-center">
+                <span th:text="${#dates.format(poll.createTime,'yyyy-MM-dd HH:mm')}"></span>
+                <span
+                        th:text="${#dates.format(poll.expirationDateTime,'yyyy-MM-dd HH:mm')}"></span>
+                <a href="#" class="badge badge-danger">0天</a>
+                <a href="#" class="badge badge-danger">0时</a>
+                <a href="#" class="badge badge-danger">0分</a>
+                <a href="#" class="badge badge-danger">0秒</a>
+            </p>
+            <p class="text-center">
+                <span th:text="${poll.mode} == 1 ? '单选' : '多选'"></span>
+                <span class="text-center"
+                      th:text="${poll.mode} == 2 ? (${poll.limitCount}==-1?'无限制':|限制${poll.limitCount}个|) : ''"></span>
+            </p>
+
+            <p class="text-center" th:text="|参与人数：${poll.count}|"></p>
+        </div>
+        <div class="col col-lg-2">
+            <th:block th:each="tag : ${poll.tags}">
+                <a th:href="|/tags?name=${tag.name}|">
+                    <span th:text="${tag.name}" class="badge badge-pill badge-info">New</span>
+                </a>
+            </th:block>
+            <a th:href="|/categories?name=${poll.category.name}|" class="badge badge-dark"
+               th:text="${poll.category.name}"></a>
+        </div>
+    </div>
+    <div class="row">
+        <svg class="bar-chart"></svg>
+    </div>
+    <div class="row">
+        <svg class="pie-chart"></svg>
+    </div>
+</div>
+<div th:replace="_fragments :: js"></div>
+<script src="https://cdn.jsdelivr.net/npm/chart.xkcd@1/dist/chart.xkcd.min.js"></script>
+<script th:src="@{/dist/js/voteinfo.js}"></script>
+</body>
+</html>

@@ -31,9 +31,11 @@ public interface VoteRepository extends JpaRepository<Vote, Long> {
     @Query("select count(v.id) from Vote v where v.user.id = :userId and v.poll.id = :pollId")
     long countByUserIdAndPollId(@Param("userId") Long userId, @Param("pollId") Long pollId);
 
-    @Query("select count(v.id) from Vote v where v.user.id = :userId")
+    @Query("select count(distinct v.poll.id) from Vote v where v.user.id = :userId")
     long countByUserId(@Param("userId") Long userId);
 
+    @Query("select count(v.choice) from Vote v where v.choice.id = :choiceId")
+    long countByChoiceId(@Param("choiceId")Long choiceId);
 
     @Query("select v.poll.id from Vote v where v.user.id = :userId")
     Page<Long> findVotedPollIdsByUserId(@Param("userId") Long userId, Pageable pageable);

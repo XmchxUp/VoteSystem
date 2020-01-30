@@ -7,6 +7,7 @@ $(function () {
             "email": $("#inputEmail").val(),
             "password": $("#inputPassword").val()
         };
+        console.log(param);
 
         $.ajax({
             url: "/api/auth/signup",
@@ -15,7 +16,7 @@ $(function () {
             contentType: "application/json;charset=utf-8",
             dataType: 'json',
             success: function (data) {
-                /*window.location.href = "/login";*/
+                window.location.href = "/login";
             },
             error: function (error) {
                 $(".alert").show();

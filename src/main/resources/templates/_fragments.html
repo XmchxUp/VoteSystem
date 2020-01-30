@@ -41,13 +41,15 @@
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <div class="dropdown-item-text">
                             <span style="display: block" sec:authentication="principal.name"></span>
-                            <a href="#">
+                            <a th:href="|/users/${#authentication.principal.username}|">
                                 @<span style="display:inline"
                                       sec:authentication="principal.username"></span>
                             </a>
                         </div>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Profile</a>
+                        <a class="dropdown-item"
+                           th:href="|/users/${#authentication.principal.username}/profile|">Profile
+                        </a>
 
                         <a class="dropdown-item" href="/logout">Logout</a>
                     </div>
