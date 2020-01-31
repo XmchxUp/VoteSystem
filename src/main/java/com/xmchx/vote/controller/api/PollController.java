@@ -104,6 +104,9 @@ public class PollController {
         Category category =
                 categoryRepository.findById(pollRequest.getCategoryId()).orElseThrow(() -> new AppException(
                         "Category not exist."));
+        category.setRank(category.getRank() + 1);
+        categoryRepository.save(category);
+
         Poll poll = new Poll();
         poll.setCategory(category);
         poll.setTags(tags);

@@ -91,19 +91,21 @@
 <footer style="width: 50%;margin:0 auto;">
     <nav aria-label="Page navigation example">
         <ul class="pagination">
-            <li class="page-item" th:classappend="${page.page == 1}?'disabled':''">
-                <a class="page-link" href="#" aria-label="Previous">
+            <li class="page-item" th:classappend="${page.page == 0}?'disabled':''">
+                <a class="page-link" th:href="${#strings.concat(aHref,page.page)}"
+                   aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                 </a>
             </li>
             <!-- 迭代生成页码 -->
             <li class="page-item" th:each="i : ${#numbers.sequence(1, page.totalPages)}">
-                <a class="page-link" th:href="|/index?page=${i}|">
+                <a class="page-link" th:href="${#strings.concat(aHref,i)}">
                     <span th:text="${i}"></span>
                 </a>
             </li>
             <li class="page-item" th:classappend="${page.last == true}?'disabled':''">
-                <a class="page-link" href="#" aria-label="Next">
+                <a class="page-link" th:href="${#strings.concat(aHref,page.page+1+1)}"
+                   aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                 </a>
             </li>

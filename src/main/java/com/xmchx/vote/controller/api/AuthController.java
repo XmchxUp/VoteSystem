@@ -17,10 +17,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
-import java.net.URI;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -72,13 +70,9 @@ public class AuthController {
 
         user.setRoles(Collections.singleton(userRole));
         user.setCreateTime(new Date());
-        User result = userRepository.save(user);
+        userRepository.save(user);
 
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentContextPath().path("/users/{username}")
-                .buildAndExpand(result.getUsername()).toUri();
 
-        return ResponseEntity.created(location)
-                .body(new ApiResponse(true, "User registered successfully"));
+        return new ResponseEntity(new ApiResponse(true, "User registered successfully"),HttpStatus.OK);
     }
 }

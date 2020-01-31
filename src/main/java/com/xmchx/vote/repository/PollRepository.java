@@ -28,6 +28,18 @@ public interface PollRepository extends JpaRepository<Poll, Long> {
     @Query("select p from Poll p where p.title like ?1 or p.summary like ?1")
     Page<Poll> findByTitleLikeOrSummaryLike(String name, Pageable pageable);
 
+    @Query(value = "SELECT * FROM polls AS p, tags As t, poll_tags as pt WHERE p.id = pt.poll_id " +
+            "AND t.id = pt.tag_id AND t.name = ?1 ",
+            countQuery = "SELECT count(*) FROM polls AS p, tags As t, poll_tags as pt WHERE p.id " +
+                    "= pt.poll_id " +
+                    "AND t.id = pt.tag_id AND t.name = ?1",
+            nativeQuery = true)
+    Page<Poll> findPollsByTagName(String name, Pageable pageable);
+
+    @Query(value = "select p from Poll p where p.category.name = ?1")
+    Page<Poll> findPollsByCategoryName(String name, Pageable pageable);
+
+
     @Transactional
     void deletePollsByIdIn(List<Long> ids);
 }

@@ -64,4 +64,36 @@ public class PollServiceImpl implements PollService {
         return new PagedResponse(polls.getContent(), polls.getNumber(),
                 polls.getSize(), polls.getTotalElements(), polls.getTotalPages(), polls.isLast());
     }
+
+    @Override
+    public PagedResponse<PollResponse> getAllPollsByTagName(int page, int size, String tagName) {
+        validatePageNumberAndSize(page - 1, size);
+        Pageable pageable = PageRequest.of(page - 1, size, Sort.Direction.DESC, "create_time");
+
+        Page<Poll> polls = pollRepository.findPollsByTagName(tagName, pageable);
+
+        if (polls.getNumberOfElements() == 0) {
+            return new PagedResponse(Collections.emptyList(), polls.getNumber(),
+                    polls.getSize(), polls.getTotalElements(), polls.getTotalPages(), polls.isLast());
+        }
+
+        return new PagedResponse(polls.getContent(), polls.getNumber(),
+                polls.getSize(), polls.getTotalElements(), polls.getTotalPages(), polls.isLast());
+    }
+
+    @Override
+    public PagedResponse<PollResponse> getAllPollsByCategoryName(int page, int size, String categoryName) {
+        validatePageNumberAndSize(page - 1, size);
+        Pageable pageable = PageRequest.of(page - 1, size, Sort.Direction.DESC, "createTime");
+
+        Page<Poll> polls = pollRepository.findPollsByCategoryName(categoryName, pageable);
+
+        if (polls.getNumberOfElements() == 0) {
+            return new PagedResponse(Collections.emptyList(), polls.getNumber(),
+                    polls.getSize(), polls.getTotalElements(), polls.getTotalPages(), polls.isLast());
+        }
+
+        return new PagedResponse(polls.getContent(), polls.getNumber(),
+                polls.getSize(), polls.getTotalElements(), polls.getTotalPages(), polls.isLast());
+    }
 }

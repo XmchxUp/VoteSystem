@@ -1,3 +1,4 @@
+var expirationDateTime;
 $(function () {
     var pollId = $("#pollId").val();
 
@@ -5,6 +6,10 @@ $(function () {
     const pieSvg = document.querySelector('.pie-chart');
     const barSvg = document.querySelector('.bar-chart');
 
+    let d = $("#expirationDateTime").text();
+    expirationDateTime = new Date(d);
+
+    setInterval(setTime, 1000);
 
     setInterval(function () {
         $.getJSON("/api/polls/" + pollId).done(function (data) {
@@ -49,6 +54,27 @@ $(function () {
         });
     }, 2000);
 });
+
+/**设置倒计时*/
+function setTime() {
+    var now = new Date();
+    var now_time = new Date().getTime();
+    var deadline_time = new Date(expirationDateTime).getTime();
+    // 设置时间样式 天 小时 分 秒
+    var time_diff = deadline_time - now_time;
+    // 天
+    var days = Math.floor(time_diff / (24 * 3600 * 1000));
+    // 小时
+    var hours = Math.floor(time_diff / (3600 * 1000));
+    // 分
+    var minutes = Math.floor(time_diff / (60 * 1000));
+    // 秒
+    var seconds = Math.floor(time_diff / 1000);
+    $("#dead_day").text(days+'天');
+    $("#dead_hour").text(hours - days * 24+'时');
+    $("#dead_minute").text(minutes - hours * 60+'分');
+    $("#dead_second").text(seconds - minutes * 60+'秒');
+}
 
 
 /**

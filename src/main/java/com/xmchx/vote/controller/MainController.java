@@ -36,15 +36,44 @@ public class MainController {
     }
 
     @GetMapping("/index")
-    public String index(@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
+    public String index(@RequestParam(name = "page",
+            defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
                         @RequestParam(name = "size", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int size,
                         Model model) {
         PagedResponse<PollResponse> polls = pollService.getAllPolls(page, size, "createTime",
                 "desc");
         model.addAttribute("page", polls);
+        model.addAttribute("aHref", "/index?page=");
         return "index";
     }
 
+    @GetMapping("/tags")
+    public String tagsIndex(@RequestParam(name = "name", defaultValue = "") String name,
+                            @RequestParam(name = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER)
+                                    int page,
+                            @RequestParam(name = "size", defaultValue = AppConstants.DEFAULT_PAGE_SIZE)
+                                    int size,
+                            Model model) {
+        PagedResponse<PollResponse> polls = pollService.getAllPollsByTagName(page, size, name);
+        model.addAttribute("page", polls);
+        String href = "/tags?name=" + name + "&page=";
+        model.addAttribute("aHref", href);
+        return "index";
+    }
+
+    @GetMapping("/categories")
+    public String categoriesIndex(@RequestParam(name = "name", defaultValue = "") String name,
+                                  @RequestParam(name = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER)
+                                          int page,
+                                  @RequestParam(name = "size", defaultValue = AppConstants.DEFAULT_PAGE_SIZE)
+                                          int size,
+                                  Model model) {
+        PagedResponse<PollResponse> polls = pollService.getAllPollsByCategoryName(page, size, name);
+        model.addAttribute("page", polls);
+        String href = "/categories?name=" + name + "&page=";
+        model.addAttribute("aHref", href);
+        return "index";
+    }
 
 
     @GetMapping("/signup")

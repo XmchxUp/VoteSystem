@@ -12,4 +12,8 @@ public interface PollService {
     PagedResponse<PollResponse> getAllPolls(int page, int size, String sidx, String order);
 
     PagedResponse<PollResponse> getAllPollsByKeyword(int page, int size, String keyword);
+
+    PagedResponse<PollResponse> getAllPollsByTagName(int page, int size, String tagName);
+
+    PagedResponse<PollResponse> getAllPollsByCategoryName(int page, int size, String categoryName);
 }

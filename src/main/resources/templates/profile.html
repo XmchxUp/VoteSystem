@@ -17,6 +17,11 @@
             </div>
         </div>
         <div class="col-6">
+            <input type="hidden" id="oldUsername" name="oldUsername" th:value="${userResponse.username}">
+            <div class="alert alert-danger" id="error-msg" style="display: none;">
+                错误信息展示栏。
+            </div>
+
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="basic-addon1">@</span>
@@ -52,18 +57,19 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text">Motto</span>
                 </div>
-                <textarea th:text="${userResponse.motto} != null ?${userResponse.motto}:''"
+                <textarea id="motto"
+                          th:text="${userResponse.motto} != null ?${userResponse.motto}:''"
                           class="form-control"
                 ></textarea>
             </div>
             <br>
-            <button type="button" class="btn btn-outline-secondary">Save</button>
+            <button type="button" id="saveBtn" class="btn btn-outline-secondary">Save</button>
         </div>
     </div>
 
 </div>
 <div th:replace="_fragments :: js"></div>
-
+<script th:src="@{/dist/js/profile.js}"></script>
 
 </body>
 </html>

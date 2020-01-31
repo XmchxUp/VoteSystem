@@ -1,9 +1,6 @@
 # VoteSystem
 a web project for java (spring-boot)
 
-## TODO
-- 用户的配置、界面设计
-- 投票信息展示
 
 ## 技术点
 

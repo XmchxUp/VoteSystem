@@ -14,6 +14,7 @@ public class UserRequest {
     private String avatar;
     private String status;
     private String password;
+    private String motto;
     private List<Long> roleIds;
 
     public Long getId() {
@@ -80,5 +81,11 @@ public class UserRequest {
         this.roleIds = roleIds;
     }
 
+    public String getMotto() {
+        return motto;
+    }
 
+    public void setMotto(String motto) {
+        this.motto = motto;
+    }
 }
