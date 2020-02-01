@@ -32,7 +32,7 @@ public class CategoryController {
 
     @GetMapping("/list")
     public PagedResponse<?> list(
-            @RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
+            @RequestParam(name = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
             @RequestParam(name = "size", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int size,
             @RequestParam(name = "sidx", defaultValue = "createTime") String sidx,
             @RequestParam(name = "order", defaultValue = "desc") String order

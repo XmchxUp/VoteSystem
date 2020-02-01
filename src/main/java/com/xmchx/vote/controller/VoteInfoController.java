@@ -1,15 +1,10 @@
 package com.xmchx.vote.controller;
 
 import com.xmchx.vote.exception.AppException;
-import com.xmchx.vote.model.Choice;
-import com.xmchx.vote.model.Poll;
-import com.xmchx.vote.model.User;
-import com.xmchx.vote.model.Vote;
+import com.xmchx.vote.model.*;
 import com.xmchx.vote.payload.ApiResponse;
-import com.xmchx.vote.repository.ChoiceRepository;
-import com.xmchx.vote.repository.PollRepository;
-import com.xmchx.vote.repository.UserRepository;
-import com.xmchx.vote.repository.VoteRepository;
+import com.xmchx.vote.repository.*;
+import com.xmchx.vote.util.IpUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.util.Date;
 
@@ -39,12 +35,15 @@ public class VoteInfoController {
     @Autowired
     private ChoiceRepository choiceRepository;
 
+    @Autowired
+    private CommentRepository commentRepository;
+
     @PostMapping("/votes")
     @PreAuthorize("hasRole('USER')")
     @ResponseBody
     public ResponseEntity<ApiResponse> castVote(Principal principal,
-                                                @RequestParam(value = "voteId") Long pollId,
-                                                @RequestParam(value = "optionIds[]") Long[] choiceIds) {
+                                                @RequestParam(name = "voteId") Long pollId,
+                                                @RequestParam(name = "optionIds[]") Long[] choiceIds) {
         String loginName = principal.getName();
         User user = userRepository.findByUsernameOrEmail(loginName, loginName).orElseThrow(() -> new AppException(
                 "user not exist."));
@@ -77,7 +76,34 @@ public class VoteInfoController {
     @PreAuthorize("hasRole('USER')")
     public String voteInfo(@PathVariable("voteId") Long pollId, Model model) {
         Poll poll = pollRepository.findById(pollId).orElseThrow(() -> new AppException("poll not exist."));
-        model.addAttribute("poll",poll);
+        model.addAttribute("poll", poll);
         return "voteinfo";
+    }
+
+    @PostMapping("/post/comment")
+    @PreAuthorize("hasRole('USER')")
+    @ResponseBody
+    public ResponseEntity<ApiResponse> postComment(Principal principal,
+                                                   @RequestParam(name = "content") String content,
+                                                   @RequestParam(name = "pollId") Long pollId,
+                                                   HttpServletRequest request) {
+        String loginName = principal.getName();
+        User user = userRepository.findByUsernameOrEmail(loginName, loginName).orElseThrow(() -> new AppException(
+                "user not exist."));
+        Poll poll = pollRepository.findById(pollId).orElseThrow(() -> new AppException("poll not exist."));
+        Comment c = new Comment();
+        c.setPoll(poll);
+        c.setCommentStatus((byte) 0);
+        c.setContent(content);
+        c.setCommentator(user.getName());
+        c.setEmail(user.getEmail());
+        c.setCreateTime(new Date());
+        c.setAvatar(user.getAvatar());
+        //获取IP地址
+        String ipAddress = IpUtil.getIpAddr(request);
+        c.setCommentatorIp(ipAddress);
+        commentRepository.save(c);
+        return new ResponseEntity(new ApiResponse(true, "post successfully"),
+                HttpStatus.OK);
     }
 }

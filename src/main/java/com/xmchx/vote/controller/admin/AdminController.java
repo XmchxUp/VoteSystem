@@ -1,8 +1,12 @@
 package com.xmchx.vote.controller.admin;
 
 import com.xmchx.vote.model.*;
+import com.xmchx.vote.payload.ApiResponse;
 import com.xmchx.vote.repository.*;
+import com.xmchx.vote.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -38,6 +42,9 @@ public class AdminController {
 
     @Autowired
     private CommentRepository commentRepository;
+
+    @Autowired
+    private CommentService commentService;
 
 
     @RequestMapping
@@ -165,6 +172,38 @@ public class AdminController {
         model.addAttribute("path", "tags");
         return "admin/tag";
     }
+
+    @GetMapping("/comments")
+    public String comments(Model model) {
+        model.addAttribute("path", "comments");
+        return "admin/comment";
+    }
+
+    @PostMapping("/comments/reply")
+    @ResponseBody
+    public ResponseEntity<?> reply(@RequestParam("commentId") Long commentId,
+                                       @RequestParam("replyBody") String replyBody) {
+        if (commentId == null || commentId < 1 || StringUtils.isEmpty(replyBody)) {
+            return new ResponseEntity(new ApiResponse(false, "参数异常!"),
+                    HttpStatus.BAD_REQUEST);
+        }
+        commentService.reply(commentId, replyBody);
+        return new ResponseEntity(new ApiResponse(true, "reply successfully"),
+                HttpStatus.OK);
+    }
+
+    @PostMapping("/comments/checkDone")
+    @ResponseBody
+    public ResponseEntity<?> checkDone(@RequestBody List<Long> ids) {
+        if (ids.size() < 1) {
+            return new ResponseEntity(new ApiResponse(false, "ids is null!"),
+                    HttpStatus.BAD_REQUEST);
+        }
+        commentService.checkDone(ids);
+        return new ResponseEntity(new ApiResponse(true, "set successfully"),
+                HttpStatus.OK);
+    }
+
 
     @GetMapping("/logout")
     public String logout(HttpServletRequest request) {

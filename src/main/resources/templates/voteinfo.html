@@ -29,9 +29,9 @@
             <h5 th:text="${poll.title}" class="text-center"></h5>
             <h6 th:text="|${poll.summary}|" class="text-center"></h6>
             <p class="text-center">
-                <span  th:text="${#dates.format(poll.createTime,'yyyy-MM-dd HH:mm')}"></span>
+                <span th:text="${#dates.format(poll.createTime,'yyyy-MM-dd HH:mm')}"></span>
                 <span id="expirationDateTime"
-                        th:text="${#dates.format(poll.expirationDateTime,'yyyy-MM-dd HH:mm')}"></span>
+                      th:text="${#dates.format(poll.expirationDateTime,'yyyy-MM-dd HH:mm')}"></span>
                 <a href="#" id="dead_day" class="badge badge-danger">0天</a>
                 <a href="#" id="dead_hour" class="badge badge-danger">0时</a>
                 <a href="#" id="dead_minute" class="badge badge-danger">0分</a>
@@ -61,47 +61,105 @@
     <div class="row">
         <svg class="pie-chart"></svg>
     </div>
-
-    <div class="row">
-        <div class="col-sm-12">
-            <h3>User Comment</h3>
-        </div><!-- /col-sm-12 -->
-    </div><!-- /row -->
-    <div class="row">
-        <div class="col-sm-1">
-            <div class="thumbnail">
-                <img class="img-responsive user-photo" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png">
-            </div><!-- /thumbnail -->
-        </div><!-- /col-sm-1 -->
-
-        <div class="col-sm-5">
-            <div class="panel panel-default">
+    <!-- Comment -->
+    <div class="row bootstrap snippets justify-content-md-center">
+        <div class="comment-wrapper">
+            <div class="panel panel-info">
                 <div class="panel-heading">
-                    <strong>myusername</strong> <span class="text-muted">commented 5 days ago</span>
+                    Comment panel
                 </div>
                 <div class="panel-body">
-                    Panel content
-                </div><!-- /panel-body -->
-            </div><!-- /panel panel-default -->
-        </div><!-- /col-sm-5 -->
+                        <textarea id="comment" class="form-control" placeholder="write a comment..."
+                                  rows="3"></textarea>
+                    <br>
+                    <button type="button" id="postComment" class="btn btn-info pull-right">Post
+                    </button>
+                    <div class="clearfix"></div>
+                    <hr>
+                    <ul class="media-list">
+                        <th:block th:each="c : ${poll.comments}">
+                            <li class="media" th:if="${c.commentStatus != 0}">
+                                <a href="#" class="pull-left">
+                                    <img th:src="${c.avatar}" alt=""
+                                         class="img-circle">
+                                </a>
+                                <div class="media-body">
+                                    <span class="text-muted pull-right">
+                                        <small th:text="${c.createTime}" class="text-muted">30 min
+                                            ago</small>
+                                    </span>
+                                    <strong class="text-success" th:text="${c.commentator}">@MartinoMont
+                                    </strong>
+                                    <p th:text="${c.content}">
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                        Lorem ipsum dolor sit amet, <a
+                                            href="#">#consecteturadipiscing </a>.
+                                    </p>
+                                    <th:block th:unless="${#strings.isEmpty(c.replyBody)}">
+                                        <div class="media mt-3" >
+                                            <a href="#" class="pr-3 pull-left">
+                                                <img src="https://bootdey.com/img/Content/user_2.jpg" alt=""
+                                                     class="img-circle">
+                                            </a>
+                                            <div class="media-body">
+                                <span class="text-muted pull-right">
+                                    <small class="text-muted" th:text="${c.replyCreateTime}">30
+                                        min ago</small>
+                                </span>
+                                                <strong class="text-success">@LaurenceCorreil</strong>
+                                                <p th:text="${c.replyBody}">
+                                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                                    Lorem ipsum dolor <a href="#">#ipsumdolor </a>adipiscing
+                                                    elit.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </th:block>
 
-        <div class="col-sm-1">
-            <div class="thumbnail">
-                <img class="img-responsive user-photo" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png">
-            </div><!-- /thumbnail -->
-        </div><!-- /col-sm-1 -->
+                                </div>
+                            </li>
+                        </th:block>
 
-        <div class="col-sm-5">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <strong>myusername</strong> <span class="text-muted">commented 5 days ago</span>
+                        <li class="media">
+                            <a href="#" class="pull-left">
+                                <img src="https://bootdey.com/img/Content/user_2.jpg" alt=""
+                                     class="img-circle">
+                            </a>
+                            <div class="media-body">
+                                <span class="text-muted pull-right">
+                                    <small class="text-muted">30 min ago</small>
+                                </span>
+                                <strong class="text-success">@LaurenceCorreil</strong>
+                                <p>
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                    Lorem ipsum dolor <a href="#">#ipsumdolor </a>adipiscing
+                                    elit.
+                                </p>
+                            </div>
+                        </li>
+                        <li class="media">
+                            <a href="#" class="pull-left">
+                                <img src="https://bootdey.com/img/Content/user_3.jpg" alt=""
+                                     class="img-circle">
+                            </a>
+                            <div class="media-body">
+                                <span class="text-muted pull-right">
+                                    <small class="text-muted">30 min ago</small>
+                                </span>
+                                <strong class="text-success">@JohnNida</strong>
+                                <p>
+                                    Lorem ipsum dolor <a href="#">#sitamet</a> sit amet,
+                                    consectetur adipiscing elit.
+                                </p>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
-                <div class="panel-body">
-                    Panel content
-                </div><!-- /panel-body -->
-            </div><!-- /panel panel-default -->
-        </div><!-- /col-sm-5 -->
-    </div><!-- /row -->
+            </div>
+        </div>
+
+
+    </div>
 
 </div>
 <div th:replace="_fragments :: js"></div>

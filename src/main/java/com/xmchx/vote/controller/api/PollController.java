@@ -48,7 +48,7 @@ public class PollController {
     VoteRepository voteRepository;
 
     @GetMapping("/list")
-    public PagedResponse<PollResponse> list(@RequestParam(value = "page", defaultValue =
+    public PagedResponse<PollResponse> list(@RequestParam(name = "page", defaultValue =
             AppConstants.DEFAULT_PAGE_NUMBER) int page,
                                             @RequestParam(name = "size", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int size,
                                             @RequestParam(name = "sidx", defaultValue = "createTime") String sidx,

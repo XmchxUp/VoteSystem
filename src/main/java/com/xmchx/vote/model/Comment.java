@@ -1,14 +1,12 @@
 package com.xmchx.vote.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 /**
  * @author LifeOverflow  Ex-boyfriend
@@ -22,7 +20,11 @@ public class Comment {
     private Long id;
 
     @NotBlank
-    private String nickname;
+    private String commentator;
+
+    @Size(max = 40)
+    private String commentatorIp;
+
 
     @Email
     @NotBlank
@@ -33,8 +35,9 @@ public class Comment {
     @Size(max = 100)
     private String content;
 
+    @Size(max = 200)
+    private String avatar;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
     /**
@@ -42,15 +45,47 @@ public class Comment {
      */
     private Byte commentStatus;
 
+    private String replyBody;
+
+    private Date replyCreateTime;
+
+
     @ManyToOne
+    @JsonIgnore
     private Poll poll;
 
-    @OneToMany(mappedBy = "parentComment")
-    private List<Comment> replyComments = new ArrayList<>();
 
-    @OneToOne
-    private Comment parentComment;
+    public String getCommentatorIp() {
+        return commentatorIp;
+    }
 
+    public void setCommentatorIp(String commentatorIp) {
+        this.commentatorIp = commentatorIp;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public String getReplyBody() {
+        return replyBody;
+    }
+
+    public void setReplyBody(String replyBody) {
+        this.replyBody = replyBody;
+    }
+
+    public Date getReplyCreateTime() {
+        return replyCreateTime;
+    }
+
+    public void setReplyCreateTime(Date replyCreateTime) {
+        this.replyCreateTime = replyCreateTime;
+    }
 
     public String getContent() {
         return content;
@@ -68,12 +103,12 @@ public class Comment {
         this.id = id;
     }
 
-    public String getNickname() {
-        return nickname;
+    public String getCommentator() {
+        return commentator;
     }
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
+    public void setCommentator(String nickname) {
+        this.commentator = nickname;
     }
 
     public String getEmail() {
@@ -108,19 +143,5 @@ public class Comment {
         this.poll = poll;
     }
 
-    public List<Comment> getReplyComments() {
-        return replyComments;
-    }
 
-    public void setReplyComments(List<Comment> replyComments) {
-        this.replyComments = replyComments;
-    }
-
-    public Comment getParentComment() {
-        return parentComment;
-    }
-
-    public void setParentComment(Comment parentComment) {
-        this.parentComment = parentComment;
-    }
 }

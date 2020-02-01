@@ -38,7 +38,7 @@ public class ToolController {
     @PreAuthorize("hasRole('USER')")
     @ResponseBody
     public ResponseEntity<ApiResponse> isVote(Principal principal,
-                                                @RequestParam(value = "voteId") Long pollId) {
+                                                @RequestParam(name = "voteId") Long pollId) {
         String loginName = principal.getName();
         User user = userRepository.findByUsernameOrEmail(loginName, loginName).orElseThrow(() -> new AppException(
                 "user not exist."));

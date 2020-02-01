@@ -53,27 +53,52 @@ $(function () {
 
         });
     }, 2000);
+
+
+    $("#postComment").click(function () {
+        // post Comment
+        let comment = $("#comment").val();
+        if (comment.length <= 0 || comment.length > 100) {
+            alert("请输入合法的评论(2-100)!!!");
+        } else {
+            $.ajax({
+                type: 'POST',
+                url: '/post/comment',
+                data: {
+                    "content": comment,
+                    "pollId": pollId
+                },
+                success: function (result) {
+                    alert(result.message);
+                    window.location.reload();
+                },
+                error: function (error) {
+                    alert(error.responseJSON.message);
+                }
+            })
+        }
+    });
 });
 
 /**设置倒计时*/
 function setTime() {
-    var now = new Date();
-    var now_time = new Date().getTime();
-    var deadline_time = new Date(expirationDateTime).getTime();
+    let now = new Date();
+    let now_time = new Date().getTime();
+    let deadline_time = new Date(expirationDateTime).getTime();
     // 设置时间样式 天 小时 分 秒
-    var time_diff = deadline_time - now_time;
+    let time_diff = deadline_time - now_time;
     // 天
-    var days = Math.floor(time_diff / (24 * 3600 * 1000));
+    let days = Math.floor(time_diff / (24 * 3600 * 1000));
     // 小时
-    var hours = Math.floor(time_diff / (3600 * 1000));
+    let hours = Math.floor(time_diff / (3600 * 1000));
     // 分
-    var minutes = Math.floor(time_diff / (60 * 1000));
+    let minutes = Math.floor(time_diff / (60 * 1000));
     // 秒
-    var seconds = Math.floor(time_diff / 1000);
-    $("#dead_day").text(days+'天');
-    $("#dead_hour").text(hours - days * 24+'时');
-    $("#dead_minute").text(minutes - hours * 60+'分');
-    $("#dead_second").text(seconds - minutes * 60+'秒');
+    let seconds = Math.floor(time_diff / 1000);
+    $("#dead_day").text(days + '天');
+    $("#dead_hour").text(hours - days * 24 + '时');
+    $("#dead_minute").text(minutes - hours * 60 + '分');
+    $("#dead_second").text(seconds - minutes * 60 + '秒');
 }
 
 
@@ -81,9 +106,10 @@ function setTime() {
  * 获取Json数据的长度
  * */
 function getJsonLength(jsonData) {
-    var jsonLength = 0;
-    for (var item in jsonData) {
+    let jsonLength = 0;
+    for (let item in jsonData) {
         jsonLength++;
     }
     return jsonLength;
 }
+
