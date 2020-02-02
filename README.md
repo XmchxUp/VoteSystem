@@ -31,3 +31,13 @@ a web project for java (spring-boot)
 
 - BootStrap
 - AdminLTE v3.0
+
+### 效果图
+![](./images/1.png)
+![](./images/2.png)
+![](./images/3.png)
+![](./images/4.png)
+![](./images/5.png)
+![](./images/6.png)
+![](./images/7.png)
+![](./images/8.png)
