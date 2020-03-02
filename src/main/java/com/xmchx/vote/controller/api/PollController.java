@@ -87,7 +87,8 @@ public class PollController {
     }
 
     @PostMapping("/save")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
+
     public ResponseEntity<?> save(@RequestBody PollRequest pollRequest, Principal principal) {
         // save tags
         for (String tagName : pollRequest.getTags()) {

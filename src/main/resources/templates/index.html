@@ -100,11 +100,21 @@
                 </a>
             </li>
             <!-- 迭代生成页码 -->
-            <li class="page-item" th:each="i : ${#numbers.sequence(1, page.totalPages)}">
-                <a class="page-link" th:href="${#strings.concat(aHref,i)}">
-                    <span th:text="${i}"></span>
-                </a>
-            </li>
+            <th:block th:if="${page.totalPages == 0}">
+                <li class="page-item">
+                    <a class="page-link" href="#">
+                        <span>0</span>
+                    </a>
+                </li>
+            </th:block>
+            <th:block th:if="${page.totalPages != 0}">
+                <li class="page-item" th:each="i : ${#numbers.sequence(1, page.totalPages)}">
+                    <a class="page-link" th:href="${#strings.concat(aHref,i)}">
+                        <span th:text="${i}"></span>
+                    </a>
+                </li>
+            </th:block>
+
             <li class="page-item" th:classappend="${page.last == true}?'disabled':''">
                 <a class="page-link" th:href="${#strings.concat(aHref,page.page+1+1)}"
                    aria-label="Next">

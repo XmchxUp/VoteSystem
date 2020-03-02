@@ -73,7 +73,7 @@ function submitVote() {
                     clear();
                 },
                 error: function () {
-                    alert("Error!");
+                    alert("没有权限!");
                 }
             });
         } else {

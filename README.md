@@ -1,6 +1,45 @@
 # VoteSystem
 a web project for java (spring-boot)
 
+## Steps to Setup the Spring Boot
+
+1.Clone the application
+```git
+git clone git@github.com:XmchxUp/VoteSystem.git
+```
+2.Create MySql database
+```mysql
+create database vote
+```
+3.Change Mysql username and password as per your MySql installation
+- open src/main/resources/application.yaml file.
+- change username and password properties as per your mysql installation
+
+4.Run the app
+You can run the spring boot app by typing the following command
+```
+mvn spring-boot:run
+```
+The server will start on port 8080.
+
+5.Default Roles
+
+The spring boot app uses role based authorization powered by spring security. To add the default roles in the database, I have added the following sql queries in src/main/resources/data.sql file. Spring boot will automatically execute this script on startup -
+```mysql
+INSERT IGNORE INTO roles(name) VALUES('ROLE_USER');
+INSERT IGNORE INTO roles(name) VALUES('ROLE_ADMIN');
+INSERT IGNORE INTO roles(name) VALUES('ROLE_PIRATES');
+INSERT IGNORE INTO roles(name) VALUES('ROLE_PIRATE_KING');
+INSERT IGNORE INTO roles(name) VALUES('ROLE_NAVY');
+```
+Any new user who signs up to the app is assigned the ROLE_USER by default.
+
+You can't delete the ROLE_USER because a little api should me ROLE_USER
+
+You register user and then you must be update the status of the users table is 1 (1 means enable).
+
+To login to the admin, you must set the uer to admin in user_rolls table. Then
+if you want to do anything in the admin, you must be login to the index page
 
 ## 技术点
 

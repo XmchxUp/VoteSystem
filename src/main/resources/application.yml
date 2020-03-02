@@ -11,11 +11,14 @@ spring:
     username: LifeOverflow
     password: sfy1314
     driver-class-name: com.mysql.cj.jdbc.Driver
+    # Initialize the datasource with available DDL and DML scripts
+    initialization-mode: always
 
   ## Hibernate Properties
   jpa:
     hibernate:
       ddl-auto: update
+
 
 
   thymeleaf:
