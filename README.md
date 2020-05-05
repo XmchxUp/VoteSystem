@@ -1,5 +1,10 @@
 # VoteSystem
-a web project for java (spring-boot)
+> 由于技术水平有限，有许多bug。目前已知的问题是登陆到主页的用户必须是管理员，则才可以进入到后台界面去，另一个。完全是一个练手项目，是算得上我个人的第一个web项目，希望以后技术提升，在写的更好。
+
+## 使用教程
+第一步修改application.yml文件中的mysql数据库配置。
+第二步在数据库中导入并执行vote.sql文件。
+第三步在项目的根目录下运行mvn spring-boot:run。
 
 ## 技术点
 
@@ -32,11 +37,16 @@ a web project for java (spring-boot)
 - AdminLTE v3.0
 
 ### 效果图
-![](./images/1.png)
 ![](./images/2.png)
+
+![](./images/1.png)
+
 ![](./images/3.png)
+
 ![](./images/4.png)
+
 ![](./images/5.png)
-![](./images/6.png)
+
 ![](./images/7.png)
+
 ![](./images/8.png)
