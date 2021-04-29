@@ -156,7 +156,7 @@ function validSaveData() {
     var password = $("#password").val();
     if (!validPassword(password)) {
         $('#edit-error-msg').css("display", "block");
-        $('#edit-error-msg').html("请输入符合规范的用户密码(6-100)！");
+        $('#edit-error-msg').html("用户密码验证 最少6位，最多100位字母或数字、特殊字符的组合！");
         return false;
     }
 
