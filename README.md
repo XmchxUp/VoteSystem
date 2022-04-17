@@ -41,6 +41,10 @@
 - BootStrap
 - AdminLTE v3.0
 
+### 参考
+- [Spring Boot + Spring Security + JWT + MySQL + React Full Stack](https://www.callicoder.com/spring-boot-spring-security-jwt-mysql-react-app-part-1/)
+
+
 ### 效果图
 ![](./images/2.png)
 
