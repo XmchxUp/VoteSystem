@@ -3,7 +3,7 @@
 > 没有太大的问题。已知的一个问题，就是和登陆相关的问题。由于提供了两种用户登陆机制(一套是基于MD5加密的前台用户登陆，一套是基于SpringSecurity的后台登陆)，所以导致了后端登陆时没有权限提示，前端必须也要登陆，并且是Admin账号。太菜了，没考虑清楚。
 
 ## 使用教程
-> 需要注意Mysql版本不能超过5.7， 有BUG
+> 需要注意Mysql版本不能超过5.7， 有BUG(关键字，[See here](https://github.com/XmchxUp/VoteSystem/issues/2))
 
 第一步修改application.yml文件中的mysql数据库配置。
 
