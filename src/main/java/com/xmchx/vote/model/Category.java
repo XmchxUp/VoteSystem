@@ -32,6 +32,7 @@ public class Category {
     /**
      * 分类的排序值 被使用的越多数值越大
      */
+    @Column(name = "`rank`")
     private Integer rank;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")

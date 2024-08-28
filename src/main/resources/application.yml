@@ -7,9 +7,9 @@ spring:
       additional-paths: resources/**,static/**,templates/**
   ## Spring Data JPA
   datasource:
-    url: jdbc:mysql://*.*.*.*:12345/vote?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&serverTimezone=CTT
-    username: root
-    password: ****
+    url: jdbc:mysql://db:3306/vote?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&serverTimezone=CTT
+    username: ultraman
+    password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
     # Initialize the datasource with available DDL and DML scripts
     initialization-mode: always
