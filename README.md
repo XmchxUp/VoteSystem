@@ -6,8 +6,6 @@
 
 ### Docker 
 
-> docker需要代理
-
 docker-compose up
 
 ![](./images/docker-build.png)
