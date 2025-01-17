@@ -1,47 +1,62 @@
 # VoteSystem
-> 由于技术水平有限，有许多小bug。完全是一个练手项目，是算得上我个人的第一个web全栈项目，希望以后技术提升，代码写的更好，更优雅。
-> 没有太大的问题。已知的一个问题，就是和登陆相关的问题。由于提供了两种用户登陆机制(一套是基于MD5加密的前台用户登陆，一套是基于SpringSecurity的后台登陆)，所以导致了后端登陆时没有权限提示，前端必须也要登陆，并且是Admin账号。太菜了，没考虑清楚。
 
-## 使用教程
+> [中文](./README.zh.md)
 
-### Docker 
+> This project is a learning exercise and my first full-stack web application. While it functions, there are some minor bugs due to my current skill level. I aim to improve the code quality and elegance as my skills advance.
 
+> One known issue is related to the login system. The application supports two login mechanisms: one for frontend users using MD5 encryption and another for backend users using Spring Security. This dual system causes a lack of permission prompts during backend login, requiring the frontend to also be logged in with an Admin account. This oversight is due to my inexperience.
+
+
+
+## Getting Started
+
+### Using Docker
+
+To run the application using Docker, execute the following command in the project root directory:
+
+```sh
 docker-compose up
+```
 
 ![](./images/docker-build.png)
 
+### Traditional Setup
 
-### 传统
+1. Configure Database: Modify the application.yml file to update the MySQL database configurations.
+2. Initialize Database: Import and execute the vote.sql file in your MySQL database.
+3. Run the Application: Navigate to the project root directory and run:
+```sh
+mvn spring-boot:run
+```
 
-第一步修改application.yml文件中的mysql数据库配置。
+### Default Admin Account:
 
-第二步在数据库中导入并执行vote.sql文件。
+- Username: admin
+- Password: 123456
 
-第三步在项目的根目录下运行mvn spring-boot:run。
+
+## Technology Stack
+
+### Backend
+
+- Spring Boot: Framework for building the application.
+- Spring Data JPA: Simplifies data access and manipulation.
+- Spring Security: Handles authentication and authorization.
+- Thymeleaf: Templating engine for server-side rendered HTML.
 
 
-账号:
-admin/123456
+### Frontend
 
-### 技术栈
+- Bootstrap: Front-end framework for responsive design.
+- AdminLTE v3.0: Admin dashboard template.
 
-#### 后台
+## References
 
-- Spring Boot
-- Spring Data Jpa
-- Spring Security
-- Thymeleaf
-
-#### 前端
-
-- BootStrap
-- AdminLTE v3.0
-
-### 参考
 - [Spring Boot + Spring Security + JWT + MySQL + React Full Stack](https://www.callicoder.com/spring-boot-spring-security-jwt-mysql-react-app-part-1/)
 
 
-### 效果图
+### Screenshots
+
 ![](./images/2.png)
 
 ![](./images/1.png)
